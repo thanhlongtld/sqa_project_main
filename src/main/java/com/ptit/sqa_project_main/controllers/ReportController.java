@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ReportController {
-    @GetMapping("/export")
+    @GetMapping("/report")
     public String index() {
         return "report";
     }
