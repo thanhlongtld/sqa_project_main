@@ -1,12 +1,14 @@
 package com.ptit.sqa_project_main.services;
 
 
+import com.ptit.sqa_project_main.exceptions.NotFoundException;
 import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -16,5 +18,15 @@ public class ClientService {
 
     public List<Client> getAll() {
         return (List<Client>) this.repository.findAll();
+    }
+
+    public Client getById(Integer id) throws NotFoundException {
+        Optional<Client> result = repository.findById(id);
+
+        if (result.isPresent()) {
+            return result.get();
+        }
+
+        throw new NotFoundException("Client not found");
     }
 }

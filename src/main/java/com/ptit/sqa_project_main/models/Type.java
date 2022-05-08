@@ -16,8 +16,8 @@ public class Type {
     @OneToMany(mappedBy = "type")
     private List<PriceLevel> priceLevels;
 
-    @OneToOne(mappedBy = "type")
-    private Location location;
+    @OneToMany(mappedBy = "type")
+    private List<Location> location;
 
     public Integer getId() {
         return id;
@@ -42,12 +42,5 @@ public class Type {
     public void setPriceLevels(List<PriceLevel> priceLevels) {
         this.priceLevels = priceLevels;
     }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+     
 }
