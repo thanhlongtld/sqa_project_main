@@ -9,16 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clients management</title>
+    <title>Client detail</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -46,7 +46,7 @@
         <li class="nav-item">
             <a class="nav-link" href="/clients">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Quản lí khách hàng</span></a>
+                <span>Thông tin khách hàng</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/report">
@@ -115,7 +115,7 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                             <img class="img-profile rounded-circle"
-                                 src="img/undraw_profile.svg">
+                                 src="/img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -139,53 +139,36 @@
                 </div>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Clients list</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Client detail</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Code</th>
-                                    <th>Email</th>
-                                    <th>Tên</th>
-                                    <th>CMT</th>
-                                    <th>SĐT</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Code</th>
-                                    <th>Email</th>
-                                    <th>Tên</th>
-                                    <th>CMT</th>
-                                    <th>SĐT</th>
-                                    <th>Action</th>
-                                </tr>
-                                </tfoot>
+                            <table class="table table-bordered">
                                 <tbody>
-                                <th:block th:each="client: ${clients}">
-                                    <tr>
-                                        <td>[[${client.id}]]</td>
-                                        <td>[[${client.clientCode}]]</td>
-                                        <td>[[${client.email}]]</td>
-                                        <td>[[${client.name}]]</td>
-                                        <td>[[${client.nationalId}]]</td>
-                                        <td>[[${client.phone}]]</td>
-                                        <td>
-                                            <a th:href="@{'/clients/'+ ${client.id}}"
-                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Xem
-                                                thông tin</a>
-                                            <a href="#"
-                                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Xem
-                                                lịch sử giao
-                                                dịch</a>
-                                        </td>
-                                    </tr>
-                                </th:block>
+                                <tr>
+                                    <th>ID</th>
+                                    <td>[[${client.id}]]</td>
+                                </tr>
+                                <tr>
+                                    <th>Code</th>
+                                    <td>[[${client.clientCode}]]</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>[[${client.email}]]</td>
+                                </tr>
+                                <tr>
+                                    <th>Tên</th>
+                                    <td>[[${client.name}]]</td>
+                                </tr>
+                                <tr>
+                                    <th>CMT</th>
+                                    <td>[[${client.nationalId}]]</td>
+                                </tr>
+                                <tr>
+                                    <th>SDT</th>
+                                    <td>[[${client.phone}]]</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -240,21 +223,21 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
+<script src="/vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
+<script src="/js/demo/chart-area-demo.js"></script>
+<script src="/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
