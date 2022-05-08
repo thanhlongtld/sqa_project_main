@@ -4,7 +4,9 @@ import com.ptit.sqa_project_main.models.Type;
 import com.ptit.sqa_project_main.repositories.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TypeSeeder implements CommandLineRunner {
     @Autowired
     private TypeRepository typeRepository;
@@ -18,12 +20,12 @@ public class TypeSeeder implements CommandLineRunner {
     };
 
     public void run(String... args) throws Exception {
-        typeRepository.deleteAll();
-
-        for (String name: types) {
-            Type type = new Type();
-            type.setName(name);
+        if(typeRepository.count() == 0) {
+            for (String name: types) {
+                Type type = new Type();
+                type.setName(name);
+                typeRepository.save(type);
+            }
         }
-
     }
 }

@@ -4,7 +4,9 @@ import com.ptit.sqa_project_main.models.Level;
 import com.ptit.sqa_project_main.repositories.LevelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LevelSeeder implements CommandLineRunner {
     @Autowired
     private LevelRepository levelRepository;
@@ -36,6 +38,7 @@ public class LevelSeeder implements CommandLineRunner {
                 level.setName(levelNames[i]);
                 level.setMin(levelMins[i]);
                 level.setMax(levelMaxs[i]);
+                levelRepository.save(level);
             }
         }
     }
