@@ -3,29 +3,37 @@ package com.ptit.sqa_project_main.seeders;
 import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.nio.charset.Charset;
 import java.util.Random;
 
-public class ClientSeeder {
+@Component
+public class ClientSeeder implements CommandLineRunner {
     @Autowired
-    private ClientRepository clientRepository;
+    private
+    ClientRepository clientRepository;
 
-    public void genClients() {
-        clientRepository.deleteAll();
+    @Override
+    public void run(String... args) throws Exception {
 
-        for (int i = 1; i <= 1000; i++) {
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
+        if (clientRepository.count() == 0) {
+            for (int i = 1; i <= 1000; i++) {
+                Random random = new Random();
 
-            Client client = new Client();
+                int phone = 100000000 + random.nextInt(900000000);
+                int nationalId = 100000000 + random.nextInt(900000000);
 
-            client.setClientCode(generatedString + i);
-            client.setName("Client number" + i);
-            client.setEmail("client" + i + "@gmail.com");
-            client.setPhone("");
+                Client client = new Client();
+
+                client.setClientCode("Client" + i);
+                client.setName("Client number" + i);
+                client.setEmail("client" + i + "@gmail.com");
+                client.setPhone(Integer.toString(phone));
+                client.setNationalId(Integer.toString(nationalId));
+
+                clientRepository.save(client);
+            }
         }
-
     }
 }

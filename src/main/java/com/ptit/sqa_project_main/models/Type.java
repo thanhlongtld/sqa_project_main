@@ -42,12 +42,5 @@ public class Type {
     public void setPriceLevels(List<PriceLevel> priceLevels) {
         this.priceLevels = priceLevels;
     }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+     
 }
