@@ -14,7 +14,7 @@ public class SendScheduleMail {
     @Autowired
     private ScheduledEmailService scheduledEmailService;
 
-    @Scheduled(cron = "0 0 7 ? * * *")
+    @Scheduled(cron = "0 0 7 ? * * ")
 //    @Scheduled(fixedRate = 5000)
     public void sendScheduleMail(){
         int currentDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
