@@ -1,4 +1,4 @@
-package com.ptit.sqa_project_main;
+package com.ptit.sqa_project_main.controllers;
 
 
 import org.springframework.stereotype.Controller;
