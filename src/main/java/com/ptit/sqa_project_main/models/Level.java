@@ -13,9 +13,12 @@ public class Level {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "UNSIGNED INT(11)")
+    @Column(nullable = false)
     private Integer min;
 
-    @Column(nullable = false, columnDefinition = "UNSIGNED INT(11)")
+    @Column(nullable = false)
     private Integer max;
+
+//    @OneToMany(mappedBy = "level")
+//    private List<PriceLevel> priceLevels;
 }
