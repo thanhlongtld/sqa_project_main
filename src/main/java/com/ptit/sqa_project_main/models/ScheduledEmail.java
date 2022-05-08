@@ -14,7 +14,7 @@ public class ScheduledEmail {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column()
-    private Date scheduledDate;
+    private Integer scheduledDate;
 
     @Column(nullable = true)
     private String attachment;
@@ -35,11 +35,11 @@ public class ScheduledEmail {
         this.id = id;
     }
 
-    public Date getScheduledDate() {
+    public Integer getScheduledDate() {
         return scheduledDate;
     }
 
-    public void setScheduledDate(Date scheduledDate) {
+    public void setScheduledDate(Integer scheduledDate) {
         this.scheduledDate = scheduledDate;
     }
 
