@@ -12,7 +12,7 @@ public class Location {
     @Column(nullable = false)
     private String address;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "type_id")
     private Type type;
 
