@@ -1,6 +1,7 @@
 package com.ptit.sqa_project_main.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +18,9 @@ public class User {
 
     @Column(nullable = false, length = 15)
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<ScheduledEmail> scheduledEmails;
 
     public Integer getId() {
         return id;

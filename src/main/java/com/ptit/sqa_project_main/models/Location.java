@@ -1,25 +1,24 @@
 package com.ptit.sqa_project_main.models;
 
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "price_levels")
-public class PriceLevel {
+@Table(name = "locations")
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private Integer price;
+    private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "level_id")
-    private Level level;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "type_id")
     private Type type;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     public Integer getId() {
         return id;
@@ -29,20 +28,12 @@ public class PriceLevel {
         this.id = id;
     }
 
-    public Integer getPrice() {
-        return price;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Type getType() {
@@ -51,5 +42,13 @@ public class PriceLevel {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

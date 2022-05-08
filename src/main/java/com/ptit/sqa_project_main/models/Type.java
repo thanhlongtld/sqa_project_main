@@ -1,12 +1,11 @@
 package com.ptit.sqa_project_main.models;
 
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "levels")
-public class Level {
+@Table(name = "types")
+public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -14,14 +13,11 @@ public class Level {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
-    private Integer min;
-
-    @Column(nullable = false)
-    private Integer max;
-
-    @OneToMany(mappedBy = "level")
+    @OneToMany(mappedBy = "type")
     private List<PriceLevel> priceLevels;
+
+    @OneToOne(mappedBy = "type")
+    private Location location;
 
     public Integer getId() {
         return id;
@@ -39,27 +35,19 @@ public class Level {
         this.name = name;
     }
 
-    public Integer getMin() {
-        return min;
-    }
-
-    public void setMin(Integer min) {
-        this.min = min;
-    }
-
-    public Integer getMax() {
-        return max;
-    }
-
-    public void setMax(Integer max) {
-        this.max = max;
-    }
-
     public List<PriceLevel> getPriceLevels() {
         return priceLevels;
     }
 
     public void setPriceLevels(List<PriceLevel> priceLevels) {
         this.priceLevels = priceLevels;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }
