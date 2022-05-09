@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TypeSeeder implements CommandLineRunner {
+public class BTypeSeeder implements CommandLineRunner {
     @Autowired
     private TypeRepository typeRepository;
     private String[] types = {

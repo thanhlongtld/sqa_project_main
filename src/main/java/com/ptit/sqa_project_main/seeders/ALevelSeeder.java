@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LevelSeeder implements CommandLineRunner {
+public class ALevelSeeder implements CommandLineRunner {
     @Autowired
     private LevelRepository levelRepository;
     private String[] levelNames = {
