@@ -1,5 +1,6 @@
 package com.ptit.sqa_project_main.services;
 
+import com.ptit.sqa_project_main.models.Bill;
 import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.models.ScheduledEmail;
 import com.ptit.sqa_project_main.models.Usage;
@@ -28,6 +29,9 @@ public class ScheduledEmailService {
 
     @Autowired
     private UsageService usageService;
+
+    @Autowired
+    private BillService billService;
 
     @Autowired
     private ScheduledEmailRepository repository;
@@ -87,7 +91,48 @@ public class ScheduledEmailService {
 
     }
 
-    public void sendWarningEmail(){
+    public void sendWarningEmail() throws MessagingException {
+        List<Bill> bills = billService.getBillsHavePaymentNull();
+        for(Bill bill : bills){
+            Client client = bill.getClient();
+            Usage usage = bill.getUsage();
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true,"utf-8");
+
+            helper.setSubject("Thông báo quá thời hạn đóng tiền nước");
+            helper.setTo(client.getEmail());
+
+            String htmlMessage = "" +
+                    "<p>Kính chào quý khánh,</p>\n" +
+                    "<p>Tên khách hàng: <strong>"+ client.getName()+"</strong></p>\n" +
+                    "<p>Mã Khách hàng: <strong>"+client.getClientCode() + "</strong></p>\n" +
+                    "<p>WTHANOI xin thông báo đã quá hạn thanh toán tiền nước của quý khách</p>\n" +
+                    "<table style=\"border-collapse:collapse;width:47.8426%;height:44px\" border=\"1\"><colgroup><col style=\"width:29.7258%\"><col style=\"width:31.6017%\"><col style=\"width:25.2525%\"><col style=\"width:13.4199%\"></colgroup>\n" +
+                    "<tbody>\n" +
+                    "<tr>\n" +
+                    "<td>Chỉ số mới</td>\n" +
+                    "<td>Chỉ số cũ</td>\n" +
+                    "<td>Sử dụng</td>\n" +
+                    "<td>Thành tiền</td>\n" +
+                    "</tr>\n" +
+                    "<tr>\n" +
+                    "<td>"+ usage.getTotalCBM()+"</td>\n" +
+                    "<td>" + Integer.toString(usage.getTotalCBM() - usage.getRecentUsedCBM()) + "</td>\n" +
+                    "<td>"+usage.getRecentUsedCBM()+"</td>\n" +
+                    "<td>"+usage.getBill().getTotalPrice()+"</td>\n" +
+                    "</tr>\n" +
+                    "</tbody>\n" +
+                    "</table>\n" +
+                    "<p>Đề nghị quý khách thực hiện thanh toán <strong>Trong vòng 3 ngày kể từ thông báo này</strong></p>\n" +
+                    "<p>Cảm ơn quý khách đã sử dụng dịch vụ của WTHANOI!</p>\n" +
+                    "<p>(Đây là thư do hệ thống tự tạo ra, quý khách vui lòng không trả lời thư này)</p>";
+
+           // System.out.println(htmlMessage);
+
+            helper.setText(htmlMessage,true);
+            this.emailSender.send(mimeMessage);
+        }
+
         System.out.println("warning email");
     }
 

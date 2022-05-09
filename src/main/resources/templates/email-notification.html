@@ -168,7 +168,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <form th:action="@{/email-notification/send}" method="post" enctype="multipart/form-data">
+                <form id="mailform" th:action="@{/email-notification/send}" method="post" enctype="multipart/form-data">
                     <!-- Khách hàng -->
 
                     <div class="row">
@@ -185,7 +185,7 @@
                                 </div>
                                 <!-- Card Body -->
 
-                                    <select id="boot-multiselect-demo" multiple="multiple" name="client_mail" class="w-100 border-0">
+                                    <select id="client_mail" multiple="multiple" name="client_mail" class="w-100 border-0">
                                         <option class="w-100" th:each="client: ${clients}" th:value=${client.email}><h1>[[${client.name}]] - [[${client.email}]]</h1></option>
                                     </select>
 
@@ -211,11 +211,12 @@
 
                                 </div>
                                 <!-- Card Body -->
-                                <label for="title"></label>
+                                <label for="title">
                                 <input type="text" class="form-control border-0 card-body"
                                        id="title"
                                        placeholder="Tiêu đề Email"
                                        name="title">
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -236,7 +237,7 @@
                                 <!-- Card Body -->
 
                                 <label for="tiny"></label><textarea id="tiny" class="form-control"
-                                                                    name="message"></textarea>
+                                                                    name="message" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -262,7 +263,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-outline-primary w-100 my-1" >Gửi</button>
+                    <button type="submit" class="btn btn-outline-primary w-100 my-1" id="send" >Gửi</button>
                 </form>
             </div>
             <!-- /.container-fluid -->
@@ -340,10 +341,33 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#boot-multiselect-demo').multiselect({
+        $('#client_mail').multiselect({
             includeSelectAllOption: true,
             buttonWidth: "100%",
             enableFiltering: true,
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#send").click(function () {
+            var clientMail = $("#client_mail");
+            var title = $("#title");
+            var message = tinymce.get("tiny").getContent();
+            if(title.val() == ""){
+                alert("Nhập tiêu đề");
+                return false
+            }
+            if(message == ""){
+                alert("Nhập nội dung mail")
+                return false;
+            }
+            if (clientMail.val() == null) {
+                //If the "Please Select" option is selected display error.
+                alert("Chọn ít nhất 1 khách hàng !");
+                return false;
+            }else
+            return true;
         });
     });
 </script>
