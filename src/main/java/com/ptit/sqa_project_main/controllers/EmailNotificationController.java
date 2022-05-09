@@ -1,6 +1,7 @@
 package com.ptit.sqa_project_main.controllers;
 
 import com.ptit.sqa_project_main.models.Client;
+import com.ptit.sqa_project_main.models.User;
 import com.ptit.sqa_project_main.services.ClientService;
 import com.ptit.sqa_project_main.services.ScheduledEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.NamedAttributeNode;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,12 +44,18 @@ public class EmailNotificationController {
     private ScheduledEmailService scheduledEmailService;
 
     @GetMapping("/email-notification")
-    public String index(Model model) {
-        List<Client> clients = clientService.getAll();
-    //    System.out.println(clients.size());
-        model.addAttribute("clients",clients);
+    public String index(Model model, HttpSession session) {
 
-        return "email-notification";
+        User user = (User) session.getAttribute("user");
+        if(user!=null){
+            List<Client> clients = clientService.getAll();
+            //    System.out.println(clients.size());
+            model.addAttribute("clients",clients);
+
+            return "email-notification";
+        }
+        return "redirect:/login";
+
     }
 
     @PostMapping("/email-notification/send")
