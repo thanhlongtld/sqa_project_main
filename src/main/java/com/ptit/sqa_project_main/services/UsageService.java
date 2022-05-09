@@ -13,9 +13,9 @@ public class UsageService {
     @Autowired
     private UsageRepository repository;
 
-    public Usage getByClientIdAndMonth(Integer clientId, Integer month) {
+    public Usage getByClientIdAndMonthYear(Integer clientId, Integer month, Integer year) {
         Client client = new Client();
         client.setId(clientId);
-        return this.repository.findByClientIdAndMonth(client, month);
+        return this.repository.findByClientIdAndMonthYear(client, month, year);
     }
 }
