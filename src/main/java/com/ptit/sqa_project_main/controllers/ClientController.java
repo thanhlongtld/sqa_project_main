@@ -1,5 +1,6 @@
 package com.ptit.sqa_project_main.controllers;
 
+import com.ptit.sqa_project_main.models.Bill;
 import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,20 @@ public class ClientController {
             model.addAttribute("client", client);
 
             return "client-detail";
+        } catch (Throwable e) {
+            ra.addFlashAttribute("message", e.getMessage());
+            return "redirect:/clients";
+        }
+    }
+
+    @GetMapping("/clients/{id}/bills")
+    public String showBills(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        try {
+            List<Bill> bills = clientService.getClientBill(id);
+
+            model.addAttribute("bills", bills);
+
+            return "client-bills";
         } catch (Throwable e) {
             ra.addFlashAttribute("message", e.getMessage());
             return "redirect:/clients";

@@ -2,7 +2,9 @@ package com.ptit.sqa_project_main.services;
 
 
 import com.ptit.sqa_project_main.exceptions.NotFoundException;
+import com.ptit.sqa_project_main.models.Bill;
 import com.ptit.sqa_project_main.models.Client;
+import com.ptit.sqa_project_main.repositories.BillRepository;
 import com.ptit.sqa_project_main.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class ClientService {
     @Autowired
     private ClientRepository repository;
 
+    @Autowired
+    private BillRepository billRepository;
+
     public List<Client> getAll() {
         return (List<Client>) this.repository.findAll();
     }
@@ -28,5 +33,10 @@ public class ClientService {
         }
 
         throw new NotFoundException("Client not found");
+    }
+
+    public List<Bill> getClientBill(Integer clientId) {
+
+        return billRepository.findByClientId(clientId);
     }
 }
