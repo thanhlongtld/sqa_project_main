@@ -2,6 +2,7 @@ package com.ptit.sqa_project_main.services;
 
 import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.models.ScheduledEmail;
+import com.ptit.sqa_project_main.models.Usage;
 import com.ptit.sqa_project_main.repositories.ScheduledEmailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamSource;
@@ -23,6 +24,12 @@ public class ScheduledEmailService {
     public JavaMailSender emailSender;
 
     @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private UsageService usageService;
+
+    @Autowired
     private ScheduledEmailRepository repository;
 
     public List<ScheduledEmail> getAll() {
@@ -37,8 +44,47 @@ public class ScheduledEmailService {
         return -1;
     }
 
-    public void sendBillingEmail(){
-        System.out.println("billing email");
+    public void sendBillingEmail(int month, int year) throws MessagingException {
+        List<Client> clients = clientService.getAll();
+        for(Client client: clients){
+            Usage u = usageService.getByClientIdAndMonthYear(client.getId(),month,year);
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true,"utf-8");
+
+            helper.setSubject("Thông báo tiền nước");
+            helper.setTo(client.getEmail());
+
+            String htmlMessage = "" +
+                    "<p>Kính chào quý khánh,</p>\n" +
+                    "<p>Tên khách hàng: <strong>"+ client.getName()+"</strong></p>\n" +
+                    "<p>Mã Khách hàng: <strong>"+client.getClientCode() + "</strong></p>\n" +
+                    "<p>WTHANOI xin thông báo về tiền nước sử dụng tháng"+ month +" / " + year + "</p>\n" +
+                    "<table style=\"border-collapse:collapse;width:47.8426%;height:44px\" border=\"1\"><colgroup><col style=\"width:29.7258%\"><col style=\"width:31.6017%\"><col style=\"width:25.2525%\"><col style=\"width:13.4199%\"></colgroup>\n" +
+                    "<tbody>\n" +
+                    "<tr>\n" +
+                    "<td>Chỉ số mới</td>\n" +
+                    "<td>Chỉ số cũ</td>\n" +
+                    "<td>Sử dụng</td>\n" +
+                    "<td>Thành tiền</td>\n" +
+                    "</tr>\n" +
+                    "<tr>\n" +
+                    "<td>"+ u.getTotalCBM()+"</td>\n" +
+                    "<td>" + Integer.toString(u.getTotalCBM() - u.getRecentUsedCBM()) + "</td>\n" +
+                    "<td>"+u.getRecentUsedCBM()+"</td>\n" +
+                    "<td>"+u.getBill().getTotalPrice()+"</td>\n" +
+                    "</tr>\n" +
+                    "</tbody>\n" +
+                    "</table>\n" +
+                    "<p>Đề nghị quý khách thực hiện thanh toán đúng hạn</p>\n" +
+                    "<p>Cảm ơn quý khách đã sử dụng dịch vụ của WTHANOI!</p>\n" +
+                    "<p>(Đây là thư do hệ thống tự tạo ra, quý khách vui lòng không trả lời thư này)</p>";
+
+            System.out.println(htmlMessage);
+
+            helper.setText(htmlMessage,true);
+            this.emailSender.send(mimeMessage);
+        }
+
     }
 
     public void sendWarningEmail(){
