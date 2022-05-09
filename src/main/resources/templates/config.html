@@ -203,8 +203,7 @@
                             <th:block th:each="type: ${types}">
                                 <tr>
                                     <a
-                                            href=""
-                                            onclick=""
+                                            th:onclick="@{XemGia(${type.id})}"
                                             class="row bg-light rounded-3 p-2 ms-2"
                                             id="typepk"
                                     >
@@ -217,23 +216,22 @@
                             <h5 class="text-center text-gray-800">Bảng giá</h5>
                             <div id="khungBangGia" class="jumbotron rounded-3 p-3 "  >
                                 <div class="d-flex justify-content-end m-3">
-                                    <input type = "text" class= "form-control text-gray-800" value="{{tenLoai}}" disabled />
+                                    <input type = "text" class= "form-control text-gray-800" th:value="@{${currentType.getName()}}" disabled />
                                 </div>
                                 <table class = "table table-bordered table-striped " id="bangGia">
                                     <thead>
-                                    <tr>
-                                        <th class = "text-center text-gray-800">Bậc</th>
-                                        <th class = "text-center text-gray-800">Giá (VND)</th>
-                                    </tr>
+                                        <tr>
+                                            <th class = "text-center text-gray-800">Bậc</th>
+                                            <th class = "text-center text-gray-800">Giá (VND)</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-<!--                                    {% for gia in gias %}-->
-<!--                                    <tr>-->
-<!--                                        <td class = "text-center text-gray-800">{{ gia.bac}} </td>-->
-<!--                                        <td class = "text-center text-gray-800">{{ gia.gia}} </td>-->
-
-<!--                                    </tr>-->
-<!--                                    {% endfor %}-->
+                                    <th:block th:each="priceLevel: ${priceLevels}">
+                                        <tr>
+                                            <td class = "text-center text-gray-800">[[${priceLevel.level.name}]]</td>
+                                            <td class = "text-center text-gray-800">[[${priceLevel.price}]]</td>
+                                        </tr>
+                                    </th:block>
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-end m-3">
@@ -267,9 +265,9 @@
                             <div class="modal-body">
                                 <form method="post" id="form1" name="form1" action="">
                                     <label >Loại khách hàng</label>
-                                    <input type="text" class="form-control" aria-describedby="basic-addon1" name="id" value="{{id}}" hidden>
+                                    <input type="text" class="form-control" aria-describedby="basic-addon1" name="id" th:value="@{${currentType.getId()}}" hidden>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-describedby="basic-addon1" name="ten" value="{{tenLoai}}" disabled>
+                                        <input type="text" class="form-control" aria-describedby="basic-addon1" name="ten" th:value="@{${currentType.getName()}}" disabled>
                                     </div>
 
                                     <label >Bậc tiếp theo</label>
@@ -296,9 +294,9 @@
                             <div class="modal-body">
                                 <form method="post" name="form2" id="form2" >
                                     <label >Loại khách hàng</label>
-                                    <input type="text" class="form-control" aria-describedby="basic-addon1" name="id" value="{{id}}" hidden>
+                                    <input type="text" class="form-control" aria-describedby="basic-addon1" name="id" th:value="@{${currentType.getId()}}" hidden>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-describedby="basic-addon1" name="ten" value="{{tenLoai}}" id="myText" required>
+                                        <input type="text" class="form-control" aria-describedby="basic-addon1" name="ten" th:value="@{${currentType.getName()}}" id="myText" required>
                                     </div>
 <!--                                    {% for gia in gias %}-->
 <!--                                    <label >Bậc {{ gia.bac}}</label>-->
@@ -316,11 +314,10 @@
 
                 <script>
                     function XemGia(val){
-                        // $.ajax({
-                        //     type: 'GET',
-                        //     url: "{% url 'get_id' %}",
-                        //     data: {'id': val},
-                        // })
+                        $.ajax({
+                            type: 'GET',
+                            url: "/config/"+ val,
+                        })
                     }
                 </script>
 

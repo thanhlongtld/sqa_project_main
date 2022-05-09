@@ -51,15 +51,21 @@ public class PriceLevelSeeder implements CommandLineRunner {
                 PriceLevel priceLevel = new PriceLevel();
                 priceLevel.setPrice(coQuan[i]);
                 priceLevel.setType(type);
+                Level level = new Level();
+                level.setId(5);
+                priceLevel.setLevel(level);
                 priceLevelRepository.save(priceLevel);
             }
 
             for(int i = 0;i < dichvu.length; i++){
                 Type type = new Type();
                 type.setId(4);
+                Level level = new Level();
+                level.setId(5);
                 PriceLevel priceLevel = new PriceLevel();
                 priceLevel.setPrice(dichvu[i]);
                 priceLevel.setType(type);
+                priceLevel.setLevel(level);
                 priceLevelRepository.save(priceLevel);
             }
 
@@ -69,15 +75,21 @@ public class PriceLevelSeeder implements CommandLineRunner {
                 PriceLevel priceLevel = new PriceLevel();
                 priceLevel.setPrice(sanXuat[i]);
                 priceLevel.setType(type);
+                Level level = new Level();
+                level.setId(5);
+                priceLevel.setLevel(level);
                 priceLevelRepository.save(priceLevel);
             }
 
             for(int i = 0;i < kinhDoanh.length; i++){
                 Type type = new Type();
                 type.setId(6);
+                Level level = new Level();
+                level.setId(5);
                 PriceLevel priceLevel = new PriceLevel();
                 priceLevel.setPrice(kinhDoanh[i]);
                 priceLevel.setType(type);
+                priceLevel.setLevel(level);
                 priceLevelRepository.save(priceLevel);
             }
         }

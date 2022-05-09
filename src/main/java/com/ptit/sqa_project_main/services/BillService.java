@@ -13,6 +13,6 @@ public class BillService {
     private BillRepository billRepository;
 
     public List<Bill> getBillsHavePaymentNull() {
-        return (List<Bill>) this.billRepository.findBillsByPaymentIsNull();
+        return this.billRepository.findBillsByPaymentIsNull();
     }
 }
