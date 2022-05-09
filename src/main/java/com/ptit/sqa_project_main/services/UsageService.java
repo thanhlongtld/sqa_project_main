@@ -16,6 +16,6 @@ public class UsageService {
     public Usage getByClientIdAndMonthYear(Integer clientId, Integer month, Integer year) {
         Client client = new Client();
         client.setId(clientId);
-        return this.repository.findByClientIdAndMonthYear(client, month, year);
+        return this.repository.findByClientAndMonthAndYear(client, month, year);
     }
 }
