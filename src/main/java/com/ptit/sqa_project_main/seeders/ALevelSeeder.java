@@ -15,6 +15,7 @@ public class ALevelSeeder implements CommandLineRunner {
             "Mức 2",
             "Mức 3",
             "Mức 4",
+            "Áp dụng cho tất cả các mức"
     };
 
     private int[] levelMins = {
@@ -22,12 +23,14 @@ public class ALevelSeeder implements CommandLineRunner {
             11,
             21,
             31,
+            0
     };
 
     private int[] levelMaxs = {
             10,
             20,
             30,
+            Integer.MAX_VALUE,
             Integer.MAX_VALUE,
     };
 
