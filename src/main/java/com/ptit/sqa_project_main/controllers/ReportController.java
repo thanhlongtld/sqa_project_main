@@ -1,7 +1,9 @@
 package com.ptit.sqa_project_main.controllers;
 
 import com.ptit.sqa_project_main.models.MonthIncome;
+import com.ptit.sqa_project_main.services.BillService;
 import com.ptit.sqa_project_main.utils.IncomeExcelExporter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -15,30 +17,37 @@ import java.util.List;
 
 @Controller
 public class ReportController {
+
+    @Autowired
+    BillService billService;
+
     @GetMapping("/report")
     public String index() {
         return "report";
     }
 
-    @GetMapping("/export/income")
+    @GetMapping("/report/income")
     public void exportToExcel(HttpServletResponse response) throws IOException {
-        response.setContentType("application/octet-stream");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        String currentDateTime = dateFormatter.format(new Date());
+//        response.setContentType("application/octet-stream");
+//        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+//        String currentDateTime = dateFormatter.format(new Date());
+//
+//        String headerKey = "Content-Disposition";
+//        String headerValue = "attachment; filename=income_" + currentDateTime + ".xlsx";
+//        response.setHeader(headerKey, headerValue);
 
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=income_" + currentDateTime + ".xlsx";
-        response.setHeader(headerKey, headerValue);
-
-        List<MonthIncome> monthIncomeList = new ArrayList<>();
-        monthIncomeList.add(new MonthIncome(1,2,3,4,5));
-        monthIncomeList.add(new MonthIncome(2,2,3,4,5));
-        monthIncomeList.add(new MonthIncome(3,2,3,4,5));
-        monthIncomeList.add(new MonthIncome(4,2,3,4,5));
-        monthIncomeList.add(new MonthIncome(5,2,3,4,5));
-
-        IncomeExcelExporter excelExporter = new IncomeExcelExporter(monthIncomeList);
-
-        excelExporter.export(response);
+        List<MonthIncome> monthIncomeList = billService.getMonthIncoms(new java.sql.Date(2022,01,01), new java.sql.Date(2022,12,30));
+        for (MonthIncome monthIncome: monthIncomeList) {
+            System.out.println(monthIncome.getMonth());
+        }
+//        monthIncomeList.add(new MonthIncome("1/2022",2,3,4,5));
+//        monthIncomeList.add(new MonthIncome("2/2022",2,3,4,5));
+//        monthIncomeList.add(new MonthIncome("3/2022",2,3,4,5));
+//        monthIncomeList.add(new MonthIncome("4/2022",2,3,4,5));
+//        monthIncomeList.add(new MonthIncome("5/2022",2,3,4,5));
+//
+//        IncomeExcelExporter excelExporter = new IncomeExcelExporter(monthIncomeList);
+//
+//        excelExporter.export(response);
     }
 }
