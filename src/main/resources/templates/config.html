@@ -53,7 +53,7 @@
                 <span>Xuất file báo cáo</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/config?id=1&method=GET">
+            <a class="nav-link" href="/config?id=1">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Cấu hình hệ thống</span></a>
         </li>
@@ -76,23 +76,6 @@
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input id="searchInput"
-                               type="text"
-                               class="form-control bg-light border-0 small"
-                               placeholder="Search for..."
-                               aria-label="Search"
-                               aria-describedby="basic-addon2"/>
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -113,22 +96,7 @@
                                 class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                 aria-labelledby="searchDropdown"
                         >
-                            <form class="form-inline mr-auto w-100 navbar-search">
-                                <div class="input-group">
-                                    <input
-                                            type="text"
-                                            class="form-control bg-light border-0 small"
-                                            placeholder="Search for..."
-                                            aria-label="Search"
-                                            aria-describedby="basic-addon2"
-                                    />
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+
                         </div>
                     </li>
 
@@ -203,7 +171,7 @@
                             <th:block th:each="type: ${types}">
                                 <tr>
                                     <a
-                                            th:href="@{'/config?id=' + ${type.id} + '&method=GET'}"
+                                            th:href="@{'/config?id=' + ${type.id}}"
                                             class="row bg-light rounded-3 p-2 ms-2"
                                             id="typepk"
                                     >
@@ -239,9 +207,6 @@
                                   <button  type="button" data-toggle="modal" data-target="#basicExampleModal2" class="btn btn-primary btn-rounded btn-sm my-0">
                                   Sửa
                                   </button>
-                                  <a class="btn btn-danger btn-rounded btn-sm my-0" th:href="@{'/config?id='+${currentType.id}+'&method=DELETE'}">
-                                  Xóa
-                                  </a>
                               </span>
                                 </div>
                             </div>
