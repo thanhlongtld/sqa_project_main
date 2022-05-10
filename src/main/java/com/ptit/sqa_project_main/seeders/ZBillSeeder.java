@@ -30,8 +30,10 @@ public class ZBillSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for(int i = 1; i <= 10; i++) {
-            genDataForOneClient(i);
+        if(billRepository.count() == 0) {
+            for(int i = 1; i <= 10; i++) {
+                genDataForOneClient(i);
+            }
         }
     }
 
