@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,12 +25,8 @@ public class ConfigController {
     private PriceLevelService priceLevelService;
 
     @GetMapping("/config")
-    public String index(Model model,@RequestParam Integer id, @RequestParam String method) {
+    public String index(Model model,@RequestParam Integer id) {
         Integer typeId = id;
-        if(Objects.equals(method, "DELETE")) {
-            typeService.deleteById(typeId);
-            typeId = 1;
-        }
         List<Type> types = typeService.getAll();
 
         model.addAttribute("types", types);
@@ -47,17 +45,14 @@ public class ConfigController {
     }
 
     @PostMapping("/config")
-    public String updateType(Model model, @RequestBody String typeRequest) {
+    public String updateType(Model model, @RequestBody String typeRequest) throws UnsupportedEncodingException {
+        System.out.println(typeRequest);
         String[] data = typeRequest.split("&");
         Integer typeId = Integer.parseInt(data[0].split("=")[1]);
-            String typeName = data[2].split("=")[1];
-            try {
-                byte[] utf8Bytes = typeName.getBytes("UTF-8");
-                typeName = new String(utf8Bytes, "UTF-8");
-                System.out.println(typeName);
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+        String typeName = data[2].split("=")[1];
+        typeName =  URLDecoder.decode(typeName, StandardCharsets.UTF_8.toString());
+
+
             Type type = new Type();
             type.setId(typeId);
             type.setName(typeName);
