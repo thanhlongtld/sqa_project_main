@@ -12,4 +12,8 @@ public interface PriceLevelRepository extends CrudRepository<PriceLevel, Integer
 
     @Query("SELECT e FROM PriceLevel e WHERE e.type.id = ?1")
     List<PriceLevel> getPriceLevelsByTypeId(Integer typeId);
+
+    PriceLevel getPriceLevelById(Integer id);
+
+    void deletePriceLevelsByTypeId(Integer typeId);
 }
