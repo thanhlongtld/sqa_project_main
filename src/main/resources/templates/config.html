@@ -10,7 +10,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Công ti cung cấp nước sạch Dirty Water</title>
+    <title>Config</title>
 
     <!-- Custom fonts for this template-->
     <link
@@ -53,7 +53,7 @@
                 <span>Xuất file báo cáo</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/config">
+            <a class="nav-link" href="/config?id=1&method=GET">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Cấu hình hệ thống</span></a>
         </li>
@@ -203,7 +203,7 @@
                             <th:block th:each="type: ${types}">
                                 <tr>
                                     <a
-                                            th:onclick="@{XemGia(${type.id})}"
+                                            th:href="@{'/config?id=' + ${type.id} + '&method=GET'}"
                                             class="row bg-light rounded-3 p-2 ms-2"
                                             id="typepk"
                                     >
@@ -236,15 +236,12 @@
                                 </table>
                                 <div class="d-flex justify-content-end m-3">
                               <span>
-                                <button type="button" data-toggle="modal" data-target="#basicExampleModal1" class="btn btn-success btn-rounded btn-sm my-0" name="remove" onclick="add()">
-                                  Thêm
-                                  </button>
                                   <button  type="button" data-toggle="modal" data-target="#basicExampleModal2" class="btn btn-primary btn-rounded btn-sm my-0">
                                   Sửa
                                   </button>
-                                  <button type="button" class="btn btn-danger btn-rounded btn-sm my-0" name="remove" onclick="">
+                                  <a class="btn btn-danger btn-rounded btn-sm my-0" th:href="@{'/config?id='+${currentType.id}+'&method=DELETE'}">
                                   Xóa
-                                  </button>
+                                  </a>
                               </span>
                                 </div>
                             </div>
@@ -294,18 +291,20 @@
                             <div class="modal-body">
                                 <form method="post" name="form2" id="form2" >
                                     <label >Loại khách hàng</label>
-                                    <input type="text" class="form-control" aria-describedby="basic-addon1" name="id" th:value="@{${currentType.getId()}}" hidden>
+                                    <input type="text" class="form-control" aria-describedby="basic-addon1" name="typeId" th:value="@{${currentType.getId()}}" hidden>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-describedby="basic-addon1" name="ten" th:value="@{${currentType.getName()}}" id="myText" required>
+                                        <input type="text" class="form-control" aria-describedby="basic-addon1" name="typeName" th:value="@{${currentType.getName()}}" id="currentTypeName" required>
                                     </div>
-<!--                                    {% for gia in gias %}-->
-<!--                                    <label >Bậc {{ gia.bac}}</label>-->
-<!--                                    <div class="input-group mb-3">-->
-<!--                                        <input type="text" class="form-control" aria-describedby="basic-addon1" name="bac{{gia.bac}}" value="{{gia.gia}}" required>-->
-<!--                                    </div>-->
+                                    <th:block th:each="priceLevel: ${priceLevels}">
+                                        <div>
+                                            <label >[[${priceLevel.level.name}]]</label>
+                                            <div class="input-group mb-3">
+                                                 <input type="number" class="form-control" aria-describedby="basic-addon1" th:name="@{'priceLevel'+${priceLevel.id}}" th:value="@{${priceLevel.price}}" required>
+                                               </div>
+                                        </div>
+                                    </th:block>
 
-<!--                                    {% endfor %}-->
-                                    <button  type ="submit" class="btn btn-primary" onclick="">Lưu thay đổi</button>
+                                    <button  type ="submit" class="btn btn-primary">Lưu thay đổi</button>
                                 </form>
                             </div>
                         </div>
@@ -313,56 +312,7 @@
                 </div>
 
                 <script>
-                    function XemGia(val){
-                        $.ajax({
-                            type: 'GET',
-                            url: "/config/"+ val,
-                        })
-                    }
-                </script>
 
-                <script>
-                    // function editCost(){
-                    //     var csrftoken = Cookies.get('csrftoken');
-                    //     $.ajax({
-                    //         type: 'POST',
-                    //         url: "{% url 'get_id' %}",
-                    //         headers: {
-                    //             'X-CSRFToken': csrftoken
-                    //         },
-                    //         success: (data) =>{
-                    //             alert(data);
-                    //             location.reload();
-                    //         },
-                    //         error: (data) => {
-                    //             alert(data);
-                    //
-                    //         }
-                    //     })
-                    // }
-                </script>
-
-                <script>
-                    // function deleteCost(val){
-                    //     if(confirm("Delete last level?")){
-                    //         var csrftoken = Cookies.get('csrftoken');
-                    //         $.ajax({
-                    //             type: 'POST',
-                    //             url: "{% url 'delete_cost' %}",
-                    //             data: {'id': val},
-                    //             headers: {
-                    //                 'X-CSRFToken': csrftoken
-                    //             },
-                    //             success: (data) => {
-                    //                 alert(data);
-                    //                 location.reload()
-                    //             },
-                    //             error: (error) => {
-                    //                 alert(error);
-                    //             }
-                    //         })
-                    //     }
-                    // }
                 </script>
                 <script>
                     $(document).ready(function(){
