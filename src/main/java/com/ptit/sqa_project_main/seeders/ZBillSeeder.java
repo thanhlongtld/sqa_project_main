@@ -18,6 +18,7 @@ public class ZBillSeeder implements CommandLineRunner {
     String[] providers = {"MBBank","eBay","Techcombank","Payoo"};
     String[] _types = {"VISA", "Paypal", "chuyển khoản", "chuyển tiền mặt"};
 
+    int index = 1;
     @Autowired
     private BillRepository billRepository;
 
@@ -49,18 +50,22 @@ public class ZBillSeeder implements CommandLineRunner {
             newUsage.setRecentUsedCBM(usageCBM);
             totalCBM += usageCBM;
             newUsage.setTotalCBM(totalCBM);
-            newUsage.setCreatedAt(new Date(year, month, 28));
+            newUsage.setCreatedAt(new Date(year - 1900, month, 28));
             usageRepository.save(newUsage);
+            newUsage.setId(index);
             Payment payment = new Payment();
             payment.setProvider(providers[clientId%4]);
             payment.setType(_types[clientId%4]);
             payment.setMessage("Mã "+ clientId + " đóng tiền nước tháng " + month + " năm " + year);
             paymentRepository.save(payment);
+            payment.setId(index);
             Bill bill = new Bill();
             bill.setClient(client);
             bill.setCreatedAt(newUsage.getCreatedAt());
-            bill.setTotalPrice(100000+(int)Math.random() * (300000));
+            bill.setTotalPrice(100000 + (int)(Math.random() * (300000 + 1)));
             bill.setStatus("done");
+            bill.setPayment(payment);
+            bill.setUsage(newUsage);
             billRepository.save(bill);
             if(month == 12) {
                 month = 1;
@@ -68,6 +73,7 @@ public class ZBillSeeder implements CommandLineRunner {
             } else {
                 month ++;
             }
+            index ++;
         }
     }
 }
