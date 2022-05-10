@@ -168,7 +168,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <form id="mailform" th:action="@{/email-notification/send}" method="post" enctype="multipart/form-data">
+                <form id="mailform" th:action="@{/email-notification/send}" method="post" enctype="multipart/form-data" role="form">
                     <!-- Khách hàng -->
 
                     <div class="row">
@@ -269,7 +269,14 @@
             <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
-
+        <div class="toast" style="position: absolute; top: 10px; right: 10px;" data-bs-delay="10000">
+            <div class="toast-header bg-primary text-white">
+                Hệ thống
+            </div>
+            <div class="toast-body">
+                [[${session.message}]]
+            </div>
+        </div>
         <!-- Footer -->
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
@@ -366,9 +373,14 @@
                 //If the "Please Select" option is selected display error.
                 alert("Chọn ít nhất 1 khách hàng !");
                 return false;
-            }else
-            return true;
+            }
+           $("#mailform").submit();
         });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+            $('.toast').toast('show');
     });
 </script>
 </body>

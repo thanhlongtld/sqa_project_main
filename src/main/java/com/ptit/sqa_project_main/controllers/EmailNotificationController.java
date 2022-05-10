@@ -55,15 +55,14 @@ public class EmailNotificationController {
             return "email-notification";
         }
         return "redirect:/login";
-
     }
 
     @PostMapping("/email-notification/send")
     public String sendManualMail(@Validated @RequestParam("client_mail") String[] mail, @RequestParam("title") String title,
-                                 @RequestParam("message") String message, @RequestParam("file") MultipartFile[] files ) throws MessagingException {
+                                 @RequestParam("message") String message, @RequestParam("file") MultipartFile[] files, HttpSession session ) throws MessagingException {
 
         scheduledEmailService.sendManualMail(mail,title,message,files);
-
+        session.setAttribute("message","Gửi thành công");
         return "redirect:/email-notification";
     }
 }
