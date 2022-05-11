@@ -41,7 +41,7 @@ public class UserController {
                 session.setAttribute("user",user);
                 return "redirect:/";
             }
-            session.setAttribute("message","Sai tai khoan hoac mat khau");
+            session.setAttribute("loginmessage","Sai tài khoản hoặc mật khẩu");
             return "redirect:/login";
     }
 }

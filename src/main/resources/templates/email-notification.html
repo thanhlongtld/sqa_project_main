@@ -348,6 +348,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        $("#title").focus();
         $('#client_mail').multiselect({
             includeSelectAllOption: true,
             buttonWidth: "100%",
@@ -361,17 +362,27 @@
             var clientMail = $("#client_mail");
             var title = $("#title");
             var message = tinymce.get("tiny").getContent();
-            if(title.val() == ""){
-                alert("Nhập tiêu đề");
+            var op = message.replace(/&nbsp;/g, '');
+            op = op.replace( /(<([^>]+)>)/ig, '');
+            if(/^[a-zA-Z0-9- ]*$/.test(title.val()) == false) {
+                alert('Tiêu đề không được chứa ký tự đặc biệt');
+                $("#title").focus();
                 return false
             }
-            if(message == ""){
-                alert("Nhập nội dung mail")
+            if(title.val().trim() == ""){
+                alert("Tiêu đề không được trống hoặc toàn khoảng trắng");
+                $("#title").focus();
+                return false
+            }
+            if(op.trim() == ""){
+                alert("Nội dung mail không được để trống hoặc khoảng trắng")
+                tinymce.get("tiny").focus();
                 return false;
             }
             if (clientMail.val() == null) {
                 //If the "Please Select" option is selected display error.
                 alert("Chọn ít nhất 1 khách hàng !");
+                $('#client_mail').select();
                 return false;
             }
            $("#mailform").submit();
