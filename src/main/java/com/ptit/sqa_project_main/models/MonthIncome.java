@@ -73,4 +73,9 @@ public class MonthIncome {
     public void setDebt(int debt) {
         this.debt = debt;
     }
+
+    @Override
+    public String toString() {
+        return month + "," + numOfWater + "," + allMoney + "," + income + "," + debt;
+    }
 }
