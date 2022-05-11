@@ -23,7 +23,7 @@ public class UserController {
     public String index(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if(user!=null){
-            return "redirect:/";
+            return "redirect:/clients";
         }
         return "login";
     }

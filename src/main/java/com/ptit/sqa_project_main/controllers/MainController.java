@@ -13,7 +13,7 @@ public class MainController {
     public String showHomePage(HttpSession session){
         User user = (User) session.getAttribute("user");
         if(user!=null){
-            return "index";
+            return "redirect:/clients";
         }
         return "redirect:/login";
     }

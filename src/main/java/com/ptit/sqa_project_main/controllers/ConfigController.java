@@ -1,7 +1,9 @@
 package com.ptit.sqa_project_main.controllers;
 
+import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.models.PriceLevel;
 import com.ptit.sqa_project_main.models.Type;
+import com.ptit.sqa_project_main.models.User;
 import com.ptit.sqa_project_main.services.PriceLevelService;
 import com.ptit.sqa_project_main.services.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -25,32 +28,39 @@ public class ConfigController {
     private PriceLevelService priceLevelService;
 
     @GetMapping("/config")
-    public String index(Model model,@RequestParam Integer id) {
-        Integer typeId = id;
-        List<Type> types = typeService.getAll();
+    public String index(Model model, @RequestParam Integer id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if(user!=null){
+            Integer typeId = id;
+            List<Type> types = typeService.getAll();
 
-        model.addAttribute("types", types);
-        Type currentTypes = null;
-        for(Type type: types){
-            if(Objects.equals(type.getId(), typeId)){
-                currentTypes = type;
+            model.addAttribute("types", types);
+            Type currentTypes = null;
+            for(Type type: types){
+                if(Objects.equals(type.getId(), typeId)){
+                    currentTypes = type;
+                }
             }
+            model.addAttribute("currentType", currentTypes);
+            List<PriceLevel> priceLevels = priceLevelService.getPriceLevelsByTypeId(currentTypes.getId());
+
+            model.addAttribute("priceLevels", priceLevels);
+
+            return "config";
         }
-        model.addAttribute("currentType", currentTypes);
-        List<PriceLevel> priceLevels = priceLevelService.getPriceLevelsByTypeId(currentTypes.getId());
+        return "redirect:/login";
 
-        model.addAttribute("priceLevels", priceLevels);
 
-        return "config";
     }
 
     @PostMapping("/config")
-    public String updateType(Model model, @RequestBody String typeRequest) throws UnsupportedEncodingException {
-        System.out.println(typeRequest);
-        String[] data = typeRequest.split("&");
-        Integer typeId = Integer.parseInt(data[0].split("=")[1]);
-        String typeName = data[2].split("=")[1];
-        typeName =  URLDecoder.decode(typeName, StandardCharsets.UTF_8.toString());
+    public String updateType(Model model, @RequestBody String typeRequest, HttpSession session) throws UnsupportedEncodingException {
+        User user = (User) session.getAttribute("user");
+        if(user!=null){
+            String[] data = typeRequest.split("&");
+            Integer typeId = Integer.parseInt(data[0].split("=")[1]);
+            String typeName = data[2].split("=")[1];
+            typeName =  URLDecoder.decode(typeName, StandardCharsets.UTF_8.toString());
 
 
             Type type = new Type();
@@ -67,20 +77,24 @@ public class ConfigController {
                 priceLevelService.updatePriceLevel(priceLevel);
             }
 
-        List<Type> types = typeService.getAll();
+            List<Type> types = typeService.getAll();
 
-        model.addAttribute("types", types);
-        Type currentTypes = null;
-        for(Type _type: types){
-            if(_type.getId() == typeId){
-                currentTypes = _type;
+            model.addAttribute("types", types);
+            Type currentTypes = null;
+            for(Type _type: types){
+                if(_type.getId() == typeId){
+                    currentTypes = _type;
+                }
             }
+            model.addAttribute("currentType", currentTypes);
+            List<PriceLevel> priceLevels = priceLevelService.getPriceLevelsByTypeId(currentTypes.getId());
+
+            model.addAttribute("priceLevels", priceLevels);
+
+            return "config";
         }
-        model.addAttribute("currentType", currentTypes);
-        List<PriceLevel> priceLevels = priceLevelService.getPriceLevelsByTypeId(currentTypes.getId());
+        return "redirect:/login";
 
-        model.addAttribute("priceLevels", priceLevels);
 
-        return "config";
     }
 }

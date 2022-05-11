@@ -1,6 +1,8 @@
 package com.ptit.sqa_project_main.controllers;
 
+import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.models.MonthIncome;
+import com.ptit.sqa_project_main.models.User;
 import com.ptit.sqa_project_main.services.BillService;
 import com.ptit.sqa_project_main.utils.IncomeExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,8 +26,13 @@ public class ReportController {
     BillService billService;
 
     @GetMapping("/report")
-    public String index() {
-        return "report";
+    public String index(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if(user!=null){
+            return "report";
+        }
+        return "redirect:/login";
+
     }
 
     @GetMapping("/report/income")
