@@ -52,7 +52,7 @@ public class ZBillSeeder implements CommandLineRunner {
             newUsage.setRecentUsedCBM(usageCBM);
             totalCBM += usageCBM;
             newUsage.setTotalCBM(totalCBM);
-            newUsage.setCreatedAt(new Date(year - 1900, month, 28));
+            newUsage.setCreatedAt(new Date(year - 1900, month - 1, 28));
             usageRepository.save(newUsage);
             newUsage.setId(index);
             Payment payment = new Payment();
@@ -61,12 +61,20 @@ public class ZBillSeeder implements CommandLineRunner {
             payment.setMessage("Mã "+ clientId + " đóng tiền nước tháng " + month + " năm " + year);
             paymentRepository.save(payment);
             payment.setId(index);
+
             Bill bill = new Bill();
             bill.setClient(client);
             bill.setCreatedAt(newUsage.getCreatedAt());
             bill.setTotalPrice(100000 + (int)(Math.random() * (300000 + 1)));
             bill.setStatus("done");
             bill.setPayment(payment);
+            if(month == 4 && year == 2022) {
+                boolean ran = Math.random() < 0.5;
+                if(ran) {
+                    bill.setStatus("pending");
+                    bill.setPayment(null);
+                }
+            }
             bill.setUsage(newUsage);
             billRepository.save(bill);
             if(month == 12) {
