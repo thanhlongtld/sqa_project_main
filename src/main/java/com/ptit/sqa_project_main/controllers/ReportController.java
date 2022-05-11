@@ -6,6 +6,7 @@ import com.ptit.sqa_project_main.utils.IncomeExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,7 +28,10 @@ public class ReportController {
     }
 
     @GetMapping("/report/income")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
+    public void exportToExcel(HttpServletResponse response, @RequestParam String start, @RequestParam String end) throws IOException {
+        System.out.println(start);
+        System.out.println(end);
+
 //        response.setContentType("application/octet-stream");
 //        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 //        String currentDateTime = dateFormatter.format(new Date());
