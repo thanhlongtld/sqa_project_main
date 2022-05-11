@@ -1,13 +1,24 @@
 package com.ptit.sqa_project_main.models;
 
+import org.springframework.ui.Model;
+
 public class MonthIncome {
-    private int month;
+    private String month;
     private int numOfWater;
     private int allMoney;
     private int income;
     private int debt;
 
-    public MonthIncome(int month, int numOfWater, int allMoney, int income, int debt) {
+    private String status;
+
+    public MonthIncome(String month, int numOfWater, int allMoney, String status) {
+        this.month = month;
+        this.numOfWater = numOfWater;
+        this.allMoney = allMoney;
+        this.status = status;
+    }
+
+    public MonthIncome(String month, int numOfWater, int allMoney, int income, int debt) {
         this.month = month;
         this.numOfWater = numOfWater;
         this.allMoney = allMoney;
@@ -15,11 +26,19 @@ public class MonthIncome {
         this.debt = debt;
     }
 
-    public int getMonth() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
