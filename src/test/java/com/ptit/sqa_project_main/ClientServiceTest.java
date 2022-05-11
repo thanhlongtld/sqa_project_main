@@ -2,6 +2,7 @@ package com.ptit.sqa_project_main;
 
 
 import com.ptit.sqa_project_main.exceptions.NotFoundException;
+import com.ptit.sqa_project_main.models.Bill;
 import com.ptit.sqa_project_main.models.Client;
 import com.ptit.sqa_project_main.services.ClientService;
 import org.junit.jupiter.api.Assertions;
@@ -47,7 +48,7 @@ public class ClientServiceTest {
         ClientService clientService = context.getBean(ClientService.class);
 
         try {
-            clientService.getById(3);
+            clientService.getById(666);
             Assertions.fail("Not throw exception");
         } catch (NotFoundException e) {
             Assertions.assertEquals("Client not found",e.getMessage());
@@ -55,4 +56,24 @@ public class ClientServiceTest {
 
     }
 
+    @Test
+    public void testGetClientBill(){
+        // client co bill
+        ClientService clientService = context.getBean(ClientService.class);
+
+        List<Bill> bills = clientService.getClientBill(3);
+
+        Assertions.assertEquals(3, bills.get(0).getClient().getId());
+        Assertions.assertEquals(3, bills.get(1).getClient().getId());
+    }
+
+    @Test
+    public void testGetClientBill1(){
+        // client ko co bill
+        ClientService clientService = context.getBean(ClientService.class);
+
+        List<Bill> bills = clientService.getClientBill(4);
+
+        Assertions.assertEquals(0,bills.size());
+    }
 }
