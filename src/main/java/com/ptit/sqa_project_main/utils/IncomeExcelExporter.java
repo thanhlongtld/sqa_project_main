@@ -30,6 +30,7 @@ public class IncomeExcelExporter {
         font.setFontHeight(16);
         style.setFont(font);
 
+
         createCell(row, 0, "Tháng", style);
         createCell(row, 1, "Số nước tiêu thụ", style);
         createCell(row, 2, "Tổng tiền phải thu được", style);
@@ -58,6 +59,7 @@ public class IncomeExcelExporter {
         XSSFFont font = workbook.createFont();
         font.setFontHeight(14);
         style.setFont(font);
+
 
         for (MonthIncome monthIncome : monthIncomeList) {
             Row row = sheet.createRow(rowCount++);

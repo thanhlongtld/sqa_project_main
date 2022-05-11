@@ -6,8 +6,13 @@ import com.ptit.sqa_project_main.repositories.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillService {
@@ -18,7 +23,66 @@ public class BillService {
         return this.billRepository.findBillsByPaymentIsNull();
     }
 
-    public List<MonthIncome> getMonthIncoms(Date startDate, Date endDate) {
-        return this.billRepository.getMonthIncomes(startDate, endDate);
+    public List<MonthIncome> getMonthIncoms(String startMonth, String endMonth) {
+        Date startDate = convertToDate(startMonth + "-01");
+        Date endDate = convertToDate(endMonth + "-28");
+        List<Bill> bills =  this.billRepository.getBillsByCreatedAtIsGreaterThanEqualAndCreatedAtIsLessThanEqual(startDate,endDate);
+        List<MonthIncome> monthIncomeList = new ArrayList<>();
+        for(Bill bill: bills) {
+            String month = convertToMonthString(bill.getCreatedAt());
+            int index = getIndexOf(monthIncomeList,month);
+            if(index < 0) {
+                int a = 0;
+                int b = 0;
+                if(bill.getStatus().equals("done")) {
+                    a = bill.getTotalPrice();
+                } else {
+                    b = bill.getTotalPrice();
+                }
+                MonthIncome newMonthIncome = new MonthIncome(month, bill.getUsage().getRecentUsedCBM(),bill.getTotalPrice(),a,b);
+                monthIncomeList.add(newMonthIncome);
+            } else {
+                MonthIncome currentMonthIncome = monthIncomeList.get(index);
+                currentMonthIncome.setNumOfWater(bill.getUsage().getRecentUsedCBM() + currentMonthIncome.getNumOfWater());
+                currentMonthIncome.setAllMoney(bill.getTotalPrice()+currentMonthIncome.getAllMoney());
+                int a = 0;
+                int b = 0;
+                if(bill.getStatus().equals("done")) {
+                    a = bill.getTotalPrice();
+                } else {
+                    b = bill.getTotalPrice();
+                }
+                currentMonthIncome.setIncome(a+ currentMonthIncome.getIncome());
+                currentMonthIncome.setDebt(b+ currentMonthIncome.getDebt());
+                monthIncomeList.set(index, currentMonthIncome);
+            }
+        }
+        return monthIncomeList;
+    }
+
+    private Date convertToDate(String input) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate;
+        try {
+            startDate = df.parse(input);
+            return startDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String convertToMonthString(Date input) {
+        DateFormat df = new SimpleDateFormat("MM/yyyy");
+        return df.format(input);
+    }
+
+    private int getIndexOf(List<MonthIncome> monthIncomeList, String month) {
+        for(MonthIncome monthIncome: monthIncomeList) {
+            if(monthIncome.getMonth().equals(month)) {
+                return monthIncomeList.indexOf(monthIncome);
+            }
+        }
+        return -1;
     }
 }
