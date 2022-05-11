@@ -7,10 +7,12 @@ import com.ptit.sqa_project_main.repositories.PriceLevelRepository;
 import com.ptit.sqa_project_main.repositories.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class TypeService {
 
     @Autowired
