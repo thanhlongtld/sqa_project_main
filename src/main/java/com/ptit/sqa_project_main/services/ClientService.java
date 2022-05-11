@@ -25,6 +25,12 @@ public class ClientService {
         return (List<Client>) this.repository.findAll();
     }
 
+    public List<Client> getClientsByFilter(String search) {
+        String _search = "%"+search+"%";
+        System.out.println(_search);
+        return (List<Client>) this.repository.getClientsByNameLike(_search);
+    }
+
     public Client getById(Integer id) throws NotFoundException {
         Optional<Client> result = repository.findById(id);
 
