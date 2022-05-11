@@ -31,27 +31,20 @@ public class BillService {
         for(Bill bill: bills) {
             String month = convertToMonthString(bill.getCreatedAt());
             int index = getIndexOf(monthIncomeList,month);
+            int a = 0;
+            int b = 0;
+            if(bill.getStatus().equals("done")) {
+                a = bill.getTotalPrice();
+            } else {
+                b = bill.getTotalPrice();
+            }
             if(index < 0) {
-                int a = 0;
-                int b = 0;
-                if(bill.getStatus().equals("done")) {
-                    a = bill.getTotalPrice();
-                } else {
-                    b = bill.getTotalPrice();
-                }
                 MonthIncome newMonthIncome = new MonthIncome(month, bill.getUsage().getRecentUsedCBM(),bill.getTotalPrice(),a,b);
                 monthIncomeList.add(newMonthIncome);
             } else {
                 MonthIncome currentMonthIncome = monthIncomeList.get(index);
                 currentMonthIncome.setNumOfWater(bill.getUsage().getRecentUsedCBM() + currentMonthIncome.getNumOfWater());
                 currentMonthIncome.setAllMoney(bill.getTotalPrice()+currentMonthIncome.getAllMoney());
-                int a = 0;
-                int b = 0;
-                if(bill.getStatus().equals("done")) {
-                    a = bill.getTotalPrice();
-                } else {
-                    b = bill.getTotalPrice();
-                }
                 currentMonthIncome.setIncome(a+ currentMonthIncome.getIncome());
                 currentMonthIncome.setDebt(b+ currentMonthIncome.getDebt());
                 monthIncomeList.set(index, currentMonthIncome);
@@ -60,7 +53,7 @@ public class BillService {
         return monthIncomeList;
     }
 
-    private Date convertToDate(String input) {
+    public Date convertToDate(String input) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate;
         try {
@@ -72,12 +65,12 @@ public class BillService {
         return null;
     }
 
-    private String convertToMonthString(Date input) {
+    public String convertToMonthString(Date input) {
         DateFormat df = new SimpleDateFormat("MM/yyyy");
         return df.format(input);
     }
 
-    private int getIndexOf(List<MonthIncome> monthIncomeList, String month) {
+    public int getIndexOf(List<MonthIncome> monthIncomeList, String month) {
         for(MonthIncome monthIncome: monthIncomeList) {
             if(monthIncome.getMonth().equals(month)) {
                 return monthIncomeList.indexOf(monthIncome);
