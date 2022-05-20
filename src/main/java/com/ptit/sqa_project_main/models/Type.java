@@ -44,7 +44,7 @@ public class Type {
     }
 
     public String toString() {
-        return name;
+        return id+","+name;
     }
      
 }

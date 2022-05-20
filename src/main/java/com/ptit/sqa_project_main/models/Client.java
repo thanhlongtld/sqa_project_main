@@ -108,6 +108,6 @@ public class Client {
     }
 
     public String toString() {
-        return clientCode+","+name+","+email+","+phone+","+nationalId;
+        return id+","+clientCode+","+name+","+email+","+phone+","+nationalId;
     }
 }
