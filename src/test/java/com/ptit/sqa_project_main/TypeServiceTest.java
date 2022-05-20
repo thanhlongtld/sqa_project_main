@@ -84,4 +84,12 @@ public class TypeServiceTest {
         Assertions.assertEquals("Đơn vị sự nghiệp, dịch vụ công cộng",output.get(5).getName());
 
     }
+
+
+    @Test
+    public void testGetTypeById(){
+        TypeService typeService = context.getBean(TypeService.class);
+
+        Assertions.assertEquals("Hộ nghèo", typeService.getTypeById(2).toString());
+    }
 }

@@ -9,6 +9,10 @@ import com.ptit.sqa_project_main.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,14 +25,11 @@ public class ClientService {
     @Autowired
     private BillRepository billRepository;
 
+    @Autowired
+    private StringService stringService;
+
     public List<Client> getAll() {
         return (List<Client>) this.repository.findAll();
-    }
-
-    public List<Client> getClientsByFilter(String search) {
-        String _search = "%"+search+"%";
-        System.out.println(_search);
-        return (List<Client>) this.repository.getClientsByNameLike(_search);
     }
 
     public Client getById(Integer id) throws NotFoundException {
@@ -44,5 +45,22 @@ public class ClientService {
     public List<Bill> getClientBill(Integer clientId) {
 
         return billRepository.findByClientId(clientId);
+    }
+
+    public List<Client> getAllClientsWithSearch(String search) {
+        List<Client> clients = getAll();
+        List<Client> _clients = new ArrayList<>();
+        System.out.println("Search: " + search);
+        if(search != null) {
+            String _search = stringService.decodeUrl(search);
+            for(Client client: clients) {
+                if(client.getName().contains(_search)) {
+                    _clients.add(client);
+                }
+            }
+        } else {
+            _clients.addAll(clients);
+        }
+        return _clients;
     }
 }

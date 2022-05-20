@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -32,5 +33,9 @@ public class TypeService {
     public void deleteById(Integer id) {
         this.priceLevelRepository.deletePriceLevelsByTypeId(id);
         this.repository.deleteById(id);
+    }
+
+    public Type getTypeById(Integer id) {
+        return this.repository.getTypeById(id);
     }
 }

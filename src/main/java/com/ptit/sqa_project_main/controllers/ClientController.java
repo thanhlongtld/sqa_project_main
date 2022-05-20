@@ -29,23 +29,7 @@ public class ClientController {
 
         User user = (User) session.getAttribute("user");
         if(user!=null){
-            List<Client> clients = clientService.getAll();
-            List<Client> _clients = new ArrayList<>();
-            System.out.println("Search: " + search);
-            if(search != null) {
-                try {
-                    String _search = URLDecoder.decode(search, StandardCharsets.UTF_8.toString());
-                    for(Client client: clients) {
-                        if(client.getName().contains(_search)) {
-                            _clients.add(client);
-                        }
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    System.out.println(e);
-                }
-            } else {
-                _clients.addAll(clients);
-            }
+            List<Client> _clients = clientService.getAllClientsWithSearch(search);
 
             model.addAttribute("clients", _clients);
             model.addAttribute("search", search);

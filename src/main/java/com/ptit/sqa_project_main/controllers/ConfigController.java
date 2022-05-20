@@ -35,12 +35,7 @@ public class ConfigController {
             List<Type> types = typeService.getAll();
 
             model.addAttribute("types", types);
-            Type currentTypes = null;
-            for(Type type: types){
-                if(Objects.equals(type.getId(), typeId)){
-                    currentTypes = type;
-                }
-            }
+            Type currentTypes = typeService.getTypeById(typeId);
             model.addAttribute("currentType", currentTypes);
             List<PriceLevel> priceLevels = priceLevelService.getPriceLevelsByTypeId(currentTypes.getId());
 

@@ -106,4 +106,8 @@ public class Client {
     public void setUsages(List<Usage> usages) {
         this.usages = usages;
     }
+
+    public String toString() {
+        return clientCode+","+name+","+email+","+phone+","+nationalId;
+    }
 }

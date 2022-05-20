@@ -42,5 +42,9 @@ public class Type {
     public void setPriceLevels(List<PriceLevel> priceLevels) {
         this.priceLevels = priceLevels;
     }
+
+    public String toString() {
+        return name;
+    }
      
 }

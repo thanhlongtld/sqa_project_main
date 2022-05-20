@@ -4,6 +4,7 @@ package com.ptit.sqa_project_main;
 import com.ptit.sqa_project_main.exceptions.NotFoundException;
 import com.ptit.sqa_project_main.models.Bill;
 import com.ptit.sqa_project_main.models.Client;
+import com.ptit.sqa_project_main.repositories.ClientRepository;
 import com.ptit.sqa_project_main.services.ClientService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
 
@@ -75,5 +77,28 @@ public class ClientServiceTest {
         List<Bill> bills = clientService.getClientBill(4);
 
         Assertions.assertEquals(0,bills.size());
+    }
+
+    @Rollback(true)
+    @Test
+    public void testGetAllClientsWithSearch(){
+        ClientService clientService = context.getBean(ClientService.class);
+        ClientRepository clientRepository = context.getBean(ClientRepository.class);
+
+        List<Client> clients = clientService.getAllClientsWithSearch(null);
+
+        Assertions.assertEquals(1000,clients.size());
+
+        Client client = new Client();
+        client.setName("HTML");
+        client.setClientCode("html");
+        client.setEmail("html@gmail.com");
+        client.setPhone("0987654321");
+        client.setNationalId("9862394");
+        clientRepository.save(client);
+
+        List<Client> _clients = clientService.getAllClientsWithSearch("HTML");
+        Assertions.assertEquals(1,_clients.size());
+        Assertions.assertEquals(client.toString(),_clients.get(0).toString());
     }
 }
